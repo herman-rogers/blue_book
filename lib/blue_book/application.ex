@@ -1,6 +1,4 @@
 defmodule BlueBook.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
   @moduledoc false
 
   use Application
@@ -15,9 +13,8 @@ defmodule BlueBook.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: BlueBook.PubSub},
       # Start the Endpoint (http/https)
-      BlueBookWeb.Endpoint
-      # Start a worker by calling: BlueBook.Worker.start_link(arg)
-      # {BlueBook.Worker, arg}
+      BlueBookWeb.Endpoint,
+      BlueBook.TetherTrackerServer
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
