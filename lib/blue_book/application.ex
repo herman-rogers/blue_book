@@ -14,7 +14,10 @@ defmodule BlueBook.Application do
       {Phoenix.PubSub, name: BlueBook.PubSub},
       # Start the Endpoint (http/https)
       BlueBookWeb.Endpoint,
-      BlueBook.TetherTrackerServer
+      # Start all stock tracking systems
+      BlueBook.CoinbaseTrackerServer
+      # Start all crypto asset tracking
+      # BlueBook.TetherTrackerServer
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

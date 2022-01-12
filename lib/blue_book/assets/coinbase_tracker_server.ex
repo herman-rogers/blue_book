@@ -1,4 +1,6 @@
-defmodule BlueBook.TetherTrackerServer do
+defmodule BlueBook.CoinbaseTrackerServer do
+  @behaviour BlueBook.AssetTracker
+
   use GenServer
 
   def start_link(_opts) do
@@ -11,13 +13,17 @@ defmodule BlueBook.TetherTrackerServer do
   end
 
   def handle_info(:work, state) do
-    IO.inspect("GETTING TO HERE >>>>>>>>>>")
+    get_current_price()
     schedule_work()
     {:noreply, state}
   end
 
-  defp schedule_work() do
-    # 10 seconds
+  def schedule_work() do
     Process.send_after(self(), :work, 1000 * 10)
+  end
+
+  @impl AssetTracker
+  def get_current_price() do
+    IO.inspect("UPDATE COIN INFORMATION")
   end
 end
