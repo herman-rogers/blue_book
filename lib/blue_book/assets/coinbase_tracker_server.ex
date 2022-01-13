@@ -1,4 +1,7 @@
 defmodule BlueBook.CoinbaseTrackerServer do
+  alias BlueBook.AssetTracker, as: AssetTracker
+  alias BlueBook.Services.IEX, as: IEX
+
   @behaviour BlueBook.AssetTracker
 
   use GenServer
@@ -7,11 +10,13 @@ defmodule BlueBook.CoinbaseTrackerServer do
     GenServer.start_link(__MODULE__, %{})
   end
 
+  @impl true
   def init(state) do
     schedule_work()
     {:ok, state}
   end
 
+  @impl true
   def handle_info(:work, state) do
     get_current_price()
     schedule_work()
@@ -24,6 +29,6 @@ defmodule BlueBook.CoinbaseTrackerServer do
 
   @impl AssetTracker
   def get_current_price() do
-    IO.inspect("UPDATE COIN INFORMATION")
+    IEX.get_asset_information("COIN")
   end
 end

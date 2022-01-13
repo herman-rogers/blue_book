@@ -1,5 +1,7 @@
 defmodule BlueBook.TetherTrackerServer do
-  @behaviour BlueBook.AssetTracker
+  alias BlueBook.AssetTracker, as: AssetTracker
+
+  @behaviour AssetTracker
 
   use GenServer
 
@@ -7,11 +9,13 @@ defmodule BlueBook.TetherTrackerServer do
     GenServer.start_link(__MODULE__, %{})
   end
 
+  @impl true
   def init(state) do
     schedule_work()
     {:ok, state}
   end
 
+  @impl true
   def handle_info(:work, state) do
     get_current_price()
     schedule_work()
