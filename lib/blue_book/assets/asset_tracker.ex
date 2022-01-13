@@ -7,5 +7,4 @@ defmodule BlueBook.AssetTracker do
   Get current price information for asset
   """
   @callback get_current_price() :: nil
-
 end
