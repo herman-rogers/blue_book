@@ -1,4 +1,4 @@
-defmodule BlueBook.Transaction do
+defmodule BlueBook.Schema.Transaction do
   use Ecto.Schema
   import Ecto.Changeset
   alias BlueBook.Address
