@@ -5,7 +5,7 @@ defmodule BlueBook.Assets.AssetSupervisor do
     Supervisor.start_link(__MODULE__, opts, name: __MODULE__)
   end
 
-  def init(opts) do
+  def init(_opts) do
     children = [
       {Task.Supervisor, name: Assets.TaskSupervisor},
       BlueBook.CoinbaseTrackerServer

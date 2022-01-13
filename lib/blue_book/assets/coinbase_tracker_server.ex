@@ -29,6 +29,8 @@ defmodule BlueBook.CoinbaseTrackerServer do
 
   @impl AssetTracker
   def get_current_price() do
-    IEX.get_asset_information("COIN")
+    req = IEX.get_asset_information("COIN")
+    IO.inspect("GETTING TO REQEST")
+    IO.inspect(req)
   end
 end
