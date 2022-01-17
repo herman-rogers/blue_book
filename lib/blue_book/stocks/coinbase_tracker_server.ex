@@ -31,7 +31,12 @@ defmodule BlueBook.CoinbaseTrackerServer do
 
   @impl AssetTracker
   def get_current_price() do
-    %{price: price, symbol: symbol, is_open: is_open} = IEX.get_asset_information("COIN")
+    %{price: price, symbol: symbol, is_open: is_open, error: error} =
+      IEX.get_asset_information("COIN")
+
+    if error do
+      IO.inspect(error)
+    end
 
     if is_open do
       stock = %Stocks{price: price, symbol: symbol}

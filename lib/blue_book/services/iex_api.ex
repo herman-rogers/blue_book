@@ -14,6 +14,9 @@ defmodule BlueBook.Services.IEX do
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{body: body, status_code: 200}} ->
         {:ok, Jason.decode!(body)}
+
+      {:error, %HTTPoison.Error{id: _id, reason: reason}} ->
+        {:error, "Error fetching IEX data for #{symbol}: #{reason}"}
     end
   end
 
@@ -22,5 +25,10 @@ defmodule BlueBook.Services.IEX do
          %{"latestPrice" => latestPrice, "symbol" => symbol, "isUSMarketOpen" => isUSMarketOpen}}
       ) do
     %{price: latestPrice, symbol: symbol, is_open: isUSMarketOpen}
+  end
+
+  def format_results({:error, reason}) do
+    IO.inspect("GETTING TO ERROR >>>>>>")
+    %{error: reason}
   end
 end

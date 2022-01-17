@@ -6,7 +6,8 @@ defmodule BlueBook.TetherTrackerServer do
   use GenServer
   alias BlueBook.Services.EtherscanApi
   alias BlueBook.Services.WhaleAlertApi
-  alias BlueBook.Address
+  alias BlueBook.Schema.Address
+  alias BlueBook.Repo
 
   def start_link(_opts) do
     GenServer.start_link(__MODULE__, %{})
@@ -48,9 +49,7 @@ defmodule BlueBook.TetherTrackerServer do
     }
 
     Repo.insert!(from_address)
-
     IO.inspect("TXS >>>>>>>>>>")
-    # IO.inspect(Enum.at(txs, 0))
     IO.inspect(from)
   end
 end

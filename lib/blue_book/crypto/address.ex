@@ -1,7 +1,7 @@
 defmodule BlueBook.Schema.Address do
   use Ecto.Schema
   import Ecto.Changeset
-  alias BlueBook.Transaction
+  alias BlueBook.Schema.Transaction
 
   schema "addresses" do
     field :address, :string
