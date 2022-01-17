@@ -4,6 +4,9 @@ defmodule BlueBook.TetherTrackerServer do
   @behaviour AssetTracker
 
   use GenServer
+  alias BlueBook.Services.EtherscanApi
+  alias BlueBook.Services.WhaleAlertApi
+  alias BlueBook.Address
 
   def start_link(_opts) do
     GenServer.start_link(__MODULE__, %{})
@@ -18,6 +21,7 @@ defmodule BlueBook.TetherTrackerServer do
   @impl true
   def handle_info(:work, state) do
     get_current_price()
+
     schedule_work()
     {:noreply, state}
   end
@@ -29,5 +33,24 @@ defmodule BlueBook.TetherTrackerServer do
   @impl AssetTracker
   def get_current_price() do
     IO.inspect("UPDATE TETHER INFORMATION")
+
+    tether_treasury_address = "0x5754284f345afc66a98fbB0a0Afe71e0F007B949"
+
+    txs = EtherscanApi.address_txs(tether_treasury_address)
+    data = WhaleAlertApi.txs_data_from_hash(Enum.at(txs, 0))
+
+    %{"from" => from} = Enum.at(data, 0)
+
+    from_address = %Address{
+      address: Map.fetch(from, :address),
+      owner: Map.fetch(from, :owner),
+      owner_type: Map.fetch(from, :owner_type)
+    }
+
+    Repo.insert!(from_address)
+
+    IO.inspect("TXS >>>>>>>>>>")
+    # IO.inspect(Enum.at(txs, 0))
+    IO.inspect(from)
   end
 end
