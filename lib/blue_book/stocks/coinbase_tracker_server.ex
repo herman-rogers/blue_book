@@ -43,5 +43,5 @@ defmodule BlueBook.CoinbaseTrackerServer do
   end
 
   defp iex_api(), do: Application.get_env(:blue_book, :iex_api)
-  defp app_logger(), do: Application.get_env(:blue_book, :logger)
+  defp app_logger(), do: Application.get_env(:blue_book, :app_logger)
 end

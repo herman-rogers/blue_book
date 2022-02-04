@@ -74,3 +74,8 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 import_config "dev.secret.exs"
+
+# Customized service configuration
+config :blue_book,
+  iex_api: BlueBook.Services.IEX,
+  app_logger: BlueBook.Messenger.App
