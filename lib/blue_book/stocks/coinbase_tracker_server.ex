@@ -30,17 +30,18 @@ defmodule BlueBook.CoinbaseTrackerServer do
 
   @impl AssetTracker
   def get_current_price() do
-    %{price: price, symbol: symbol, is_open: is_open} = iex_api().get_asset_information("COIN")
-
-    # if error do
-    #   IO.inspect(error)
-    # end
-
-    if is_open do
-      stock = %Stocks{price: price, symbol: symbol}
-      Repo.insert(stock)
+    with {:ok, %{price: price, symbol: symbol, is_open: is_open}} <-
+           iex_api().get_asset_information("COIN") do
+      if is_open do
+        stock = %Stocks{price: price, symbol: symbol}
+        Repo.insert!(stock)
+      end
+    else
+      {:error, reason} ->
+        app_logger().error("Error getting COIN price: #{reason}")
     end
   end
 
   defp iex_api(), do: Application.get_env(:blue_book, :iex_api)
+  defp app_logger(), do: Application.get_env(:blue_book, :logger)
 end

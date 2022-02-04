@@ -27,11 +27,12 @@ defmodule BlueBook.Services.IEX do
         {:ok,
          %{"latestPrice" => latestPrice, "symbol" => symbol, "isUSMarketOpen" => isUSMarketOpen}}
       ) do
-    %{price: latestPrice, symbol: symbol, is_open: isUSMarketOpen}
+    info = %{price: latestPrice, symbol: symbol, is_open: isUSMarketOpen}
+
+    {:ok, info}
   end
 
   def format_results({:error, reason}) do
-    IO.inspect("GETTING TO ERROR >>>>>>")
     %{error: reason}
   end
 end
