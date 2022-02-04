@@ -1,6 +1,5 @@
 defmodule BlueBook.CoinbaseTrackerServer do
   alias BlueBook.AssetTracker, as: AssetTracker
-  alias BlueBook.Services.IEX, as: IEX
   alias BlueBook.Schema.{Stocks}
   alias BlueBook.Repo
 
@@ -31,16 +30,17 @@ defmodule BlueBook.CoinbaseTrackerServer do
 
   @impl AssetTracker
   def get_current_price() do
-    %{price: price, symbol: symbol, is_open: is_open, error: error} =
-      IEX.get_asset_information("COIN")
+    %{price: price, symbol: symbol, is_open: is_open} = iex_api().get_asset_information("COIN")
 
-    if error do
-      IO.inspect(error)
-    end
+    # if error do
+    #   IO.inspect(error)
+    # end
 
     if is_open do
       stock = %Stocks{price: price, symbol: symbol}
       Repo.insert(stock)
     end
   end
+
+  defp iex_api(), do: Application.get_env(:blue_book, :iex_api)
 end

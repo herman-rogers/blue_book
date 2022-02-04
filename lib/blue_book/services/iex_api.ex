@@ -1,6 +1,9 @@
 defmodule BlueBook.Services.IEX do
   @iex_url "https://cloud.iexapis.com/v1"
 
+  @behaviour BlueBook.Services.External.Api
+
+  @impl BlueBook.Services.External.Api
   def get_asset_information(symbol) do
     symbol
     |> get_asset_data()
